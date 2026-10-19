@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <!-- Minimalist Vector Stumps & Ball Silhouette -->
+  <g transform="translate(10, 8)">
+    <!-- 3 Angular Cricket Stumps -->
+    <rect x="0" y="4" width="5" height="36" rx="2.5" fill="#00F59B" />
+    <rect x="9" y="0" width="5" height="40" rx="2.5" fill="#00F59B" />
+    <rect x="18" y="4" width="5" height="36" rx="2.5" fill="#00F59B" />
+    
+    <!-- Dynamic Cricket Ball in Motion -->
+    <circle cx="34" cy="14" r="8" fill="#FF334B" />
+    <path d="M30 11.5 C32 14 34 14 37 15" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" />
+    
+    <!-- Motion Swoosh Streak -->
+    <path d="M26 28 C36 28 42 20 46 12" stroke="#00D8F6" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="2 3" />
+  </g>
+
+  <!-- Typography -->
+  <text x="68" y="32" font-family="'Outfit', 'Inter', sans-serif" font-size="24" font-weight="900" fill="#FFFFFF" letter-spacing="2">
+    ANKIX
+  </text>
+  <text x="142" y="32" font-family="'Outfit', 'Inter', sans-serif" font-size="24" font-weight="900" fill="#00F59B" letter-spacing="2">
+    SPORTS
+  </text>
+  <text x="69" y="46" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="700" fill="#8A99AD" letter-spacing="2">
+    EVERY RUN. EVERY MOMENT.
+  </text>
+</svg>
