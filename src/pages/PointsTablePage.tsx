@@ -66,7 +66,7 @@ export const PointsTablePage: React.FC = () => {
                   </tr>
                 ))
               ) : (
-                standings.map((row, index) => {
+                standings.map((row: any, index: number) => {
                   const teamInfo = getTeamIdentity(row.team);
                   const isTop4 = index < 4;
 
@@ -128,7 +128,7 @@ export const PointsTablePage: React.FC = () => {
                       {/* Form Guide */}
                       <td className="py-3.5 px-4 hidden md:table-cell">
                         <div className="flex items-center justify-center gap-1.5 font-sans">
-                          {row.form.map((res, idx) => (
+                          {row.form.map((res: any, idx: number) => (
                             <span
                               key={idx}
                               className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${

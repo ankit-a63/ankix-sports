@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-quer
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Preloader } from './components/brand/Preloader';
-import { DemoModeBanner } from './components/common/DemoModeBanner';
 import { ApiStatusModal } from './components/common/ApiStatusModal';
 import { SearchModal } from './components/layout/SearchModal';
 import { MatchCardSkeleton } from './components/match/MatchCardSkeleton';
@@ -68,8 +67,6 @@ function MainLayout() {
   return (
     <div className="min-h-screen bg-brand-bg text-white flex flex-col selection:bg-brand-emerald selection:text-brand-bg">
       {!preloaderDone && <Preloader onComplete={() => setPreloaderDone(true)} />}
-
-      <DemoModeBanner onOpenStatusModal={() => setApiStatusOpen(true)} />
 
       <Navbar
         liveCount={liveCount}

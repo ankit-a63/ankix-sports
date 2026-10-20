@@ -17,10 +17,10 @@ export const Logo: React.FC<LogoProps> = ({
   shieldOnly = false,
 }) => {
   const sizeMap = {
-    sm: { imgH: 'h-8 sm:h-9', text: 'text-lg', sportsText: 'text-xs', space: 'gap-2.5' },
-    md: { imgH: 'h-10 sm:h-11', text: 'text-xl', sportsText: 'text-sm', space: 'gap-2.5' },
-    lg: { imgH: 'h-14 sm:h-16', text: 'text-2xl', sportsText: 'text-base', space: 'gap-3' },
-    xl: { imgH: 'h-24 sm:h-28', text: 'text-3xl', sportsText: 'text-lg', space: 'gap-3' },
+    sm: { imgH: 'h-7 sm:h-8', text: 'text-base sm:text-lg', sportsText: 'text-xs', space: 'gap-2' },
+    md: { imgH: 'h-9 sm:h-10', text: 'text-lg sm:text-xl', sportsText: 'text-xs sm:text-sm', space: 'gap-2.5' },
+    lg: { imgH: 'h-12 sm:h-14', text: 'text-xl sm:text-2xl', sportsText: 'text-sm sm:text-base', space: 'gap-3' },
+    xl: { imgH: 'h-20 sm:h-24', text: 'text-2xl sm:text-3xl', sportsText: 'text-base sm:text-lg', space: 'gap-3' },
   };
 
   const currentSize = sizeMap[size];

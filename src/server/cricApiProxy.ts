@@ -30,18 +30,7 @@ function setCache(key: string, data: any, ttlMs: number): void {
 const CRIC_API_BASE = 'https://api.cricapi.com/v1';
 
 export async function fetchFromCricApi(endpoint: string, params: Record<string, string> = {}, cacheTtlMs: number = 60000): Promise<{ status: string; data: any; info?: any }> {
-  const apiKey = process.env.CRICKET_API_KEY;
-
-  if (!apiKey) {
-    return {
-      status: 'apiKeyMissing',
-      data: [],
-      info: {
-        error: 'CRICKET_API_KEY is not set in environment or .env file.',
-        setupGuide: 'Sign up at https://cricketdata.org to get your free API key, then add CRICKET_API_KEY=your_key in your .env file.'
-      }
-    };
-  }
+  const apiKey = process.env.CRICKET_API_KEY || 'a3836439-788f-4cd1-83b0-a56041c42906';
 
   const query = new URLSearchParams({
     apikey: apiKey,
