@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { fetchFromCricApi } from '../../src/server/cricApiProxy';
+import { fetchFromCricApi, transformCricScoreToMatch } from '../../src/server/cricApiProxy';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -8,6 +8,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  const cricScoreRes = await fetchFromCricApi('cricScore', {}, 60000);
+  if (cricScoreRes.status === 'success' && Array.isArray(cricScoreRes.data)) {
+    const upcoming = cricScoreRes.data
+      .filter((m: any) => m.ms === 'fixture')
+      .map(transformCricScoreToMatch);
+    if (upcoming.length > 0) {
+      return res.status(200).json({ ...cricScoreRes, data: upcoming });
+    }
   }
 
   const result = await fetchFromCricApi('matches', {}, 120000);

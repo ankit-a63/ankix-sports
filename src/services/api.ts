@@ -95,7 +95,7 @@ export const cricketApi = {
       }
       return {
         ...data,
-        data: (data.data || []).map(normalizeCricApiMatch)
+        data: (data.data || []).map(normalizeCricApiMatch).filter(m => m.isLive)
       };
     } catch (err: any) {
       return {

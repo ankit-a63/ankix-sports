@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Radio, Calendar, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { CricketBall3D } from './CricketBall3D';
-import { CricketStadium3D } from './CricketStadium3D';
 
 interface HeroStadium3DProps {
   liveCount: number;
@@ -167,9 +166,9 @@ export const HeroStadium3D: React.FC<HeroStadium3DProps> = ({
             </motion.div>
           </div>
 
-          {/* Right Column: 3D Cricket Stadium Hero Centerpiece */}
+          {/* Right Column: 3D Cricket Ball Hero Centerpiece */}
           <div className="lg:col-span-5 flex items-center justify-center relative mt-4 lg:mt-0">
-            {/* Soft Ambient Behind-Stadium Glow Ring */}
+            {/* Soft Ambient Behind-Ball Glow Ring */}
             <div className="absolute w-80 h-80 sm:w-96 sm:h-96 rounded-full border border-brand-emerald/20 bg-gradient-to-tr from-brand-emerald/10 via-transparent to-brand-cyan/10 animate-spin-slow pointer-events-none" />
 
             <motion.div
@@ -178,7 +177,7 @@ export const HeroStadium3D: React.FC<HeroStadium3DProps> = ({
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-10 w-full flex items-center justify-center"
             >
-              <CricketStadium3D glowColor="#00F59B" />
+              <CricketBall3D size={350} glowColor="#00F59B" />
             </motion.div>
           </div>
 

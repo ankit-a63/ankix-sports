@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Search, Radio, Menu, X, Database, ShieldCheck, Sparkles } from 'lucide-react';
+import { Search, Radio, Menu, X, ShieldCheck } from 'lucide-react';
 import { Logo } from '../brand/Logo';
 import { isDemoModeActive } from '../../services/api';
 import { SocialNavIcons, CREATOR_LINKS, GitHubIcon, LinkedInIcon } from './SocialLinks';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 interface NavbarProps {
   liveCount: number;
   onOpenSearch: () => void;
-  onOpenApiStatus: () => void;
-  onOpenLogos: () => void;
+  onOpenApiStatus?: () => void;
+  onOpenLogos?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ liveCount, onOpenSearch, onOpenApiStatus, onOpenLogos }) => {
@@ -113,33 +114,8 @@ export const Navbar: React.FC<NavbarProps> = ({ liveCount, onOpenSearch, onOpenA
               </kbd>
             </button>
 
-            {/* Brand Logos Modal Trigger */}
-            <button
-              onClick={onOpenLogos}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 rounded-xl border border-brand-border bg-brand-surface hover:bg-brand-charcoal text-xs font-mono font-medium text-brand-cyan hover:text-white transition-colors"
-              title="View & Download ANKIX SPORTS Official Logos"
-              aria-label="Brand Logos"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-brand-cyan" />
-              <span className="hidden lg:inline font-bold">LOGOS</span>
-            </button>
-
-            {/* API Status Pill */}
-            <button
-              onClick={onOpenApiStatus}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 rounded-xl border text-xs font-mono font-medium transition-colors ${
-                isDemo
-                  ? 'bg-amber-950/40 border-amber-500/40 text-amber-300 hover:bg-amber-900/40'
-                  : 'bg-brand-emerald/10 border-brand-emerald/30 text-brand-emerald hover:bg-brand-emerald/20'
-              }`}
-              title="Configure Cricket Data API Key"
-              aria-label="API Status"
-            >
-              <Database className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline font-bold">
-                {isDemo ? 'DEMO' : 'LIVE API'}
-              </span>
-            </button>
+            {/* Dark / Light Theme Toggle */}
+            <ThemeToggle />
 
             {/* Social / Developer Links */}
             <div className="hidden sm:flex items-center pl-1 border-l border-brand-border/50">
@@ -183,14 +159,10 @@ export const Navbar: React.FC<NavbarProps> = ({ liveCount, onOpenSearch, onOpenA
             </NavLink>
           ))}
 
-          <div className="pt-3 border-t border-brand-border/40 flex items-center justify-between px-2 text-xs text-brand-muted">
-            <span>Data Mode: {isDemo ? 'Demo Mode' : 'Live Provider'}</span>
-            <button
-              onClick={onOpenApiStatus}
-              className="text-brand-emerald font-semibold hover:underline"
-            >
-              Manage
-            </button>
+          {/* Mobile Theme Toggle */}
+          <div className="pt-3 border-t border-brand-border/40 flex items-center justify-between px-2 text-xs">
+            <span className="text-brand-muted">Display Theme</span>
+            <ThemeToggle />
           </div>
 
           {/* Mobile Creator Contact */}

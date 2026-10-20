@@ -20,7 +20,7 @@ export const LiveMatchesPage: React.FC = () => {
     refetchInterval: 60000,
   });
 
-  const liveMatches = response?.data || [];
+  const liveMatches = (response?.data || []).filter(m => m.isLive);
 
   const lastUpdated = dataUpdatedAt
     ? new Intl.DateTimeFormat('en-IN', {

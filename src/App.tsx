@@ -7,7 +7,6 @@ import { Preloader } from './components/brand/Preloader';
 import { DemoModeBanner } from './components/common/DemoModeBanner';
 import { ApiStatusModal } from './components/common/ApiStatusModal';
 import { SearchModal } from './components/layout/SearchModal';
-import { LogoShowcaseModal } from './components/brand/LogoShowcaseModal';
 import { MatchCardSkeleton } from './components/match/MatchCardSkeleton';
 import { cricketApi } from './services/api';
 import { CricketMatch } from './types/cricket';
@@ -55,7 +54,6 @@ function MainLayout() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [apiStatusOpen, setApiStatusOpen] = useState(false);
-  const [logosOpen, setLogosOpen] = useState(false);
 
   // Global live count poll for navbar badge
   const { data: allMatchesResponse } = useQuery({
@@ -76,8 +74,6 @@ function MainLayout() {
       <Navbar
         liveCount={liveCount}
         onOpenSearch={() => setSearchOpen(true)}
-        onOpenApiStatus={() => setApiStatusOpen(true)}
-        onOpenLogos={() => setLogosOpen(true)}
       />
 
       <main className="flex-1">
@@ -108,11 +104,6 @@ function MainLayout() {
       <ApiStatusModal
         isOpen={apiStatusOpen}
         onClose={() => setApiStatusOpen(false)}
-      />
-
-      <LogoShowcaseModal
-        isOpen={logosOpen}
-        onClose={() => setLogosOpen(false)}
       />
     </div>
   );

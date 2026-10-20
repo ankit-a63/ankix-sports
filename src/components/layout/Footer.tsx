@@ -102,18 +102,26 @@ export const Footer: React.FC = () => {
             <CreatorCard />
           </div>
           <div className="flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
+            {/* Live Sports Data Partner Attribution */}
             <div className="p-3.5 rounded-xl bg-brand-surface/40 border border-brand-border/40">
-              <span className="text-[11px] font-mono uppercase text-brand-subtle block">Connected Repository</span>
+              <span className="text-[11px] font-mono uppercase text-brand-emerald font-bold flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-emerald animate-pulse" />
+                Data Provider Attribution
+              </span>
+              <p className="text-xs text-brand-muted mt-1 leading-relaxed">
+                Special thanks to <a href="https://cricketdata.org/" target="_blank" rel="noopener noreferrer" className="text-white font-semibold hover:text-brand-cyan underline">CricketData.org (CricAPI)</a> for providing authentic live sports data APIs and real-time match coverage.
+              </p>
               <a
-                href={CREATOR_LINKS.repository}
+                href="https://cricketdata.org/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-mono text-brand-emerald hover:underline flex items-center gap-1.5 mt-1"
+                className="text-xs font-mono text-brand-cyan hover:underline inline-flex items-center gap-1.5 mt-2"
               >
-                <span>github.com/ankit-a63/ankix-sports</span>
+                <span>cricketdata.org</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
+
             <div className="p-3.5 rounded-xl bg-brand-surface/40 border border-brand-border/40 flex items-center justify-between text-xs">
               <span className="text-brand-muted">Direct Contact</span>
               <div className="flex items-center gap-3">

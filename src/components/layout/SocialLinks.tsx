@@ -30,7 +30,6 @@ export const LinkedInIcon: React.FC<{ className?: string }> = ({ className = 'w-
 export const CREATOR_LINKS = {
   github: 'https://github.com/ankit-a63',
   linkedin: 'https://linkedin.com/in/ankit-a63',
-  repository: 'https://github.com/ankit-a63/ankix-sports',
 };
 
 export const SocialNavIcons: React.FC = () => {
@@ -105,17 +104,6 @@ export const CreatorCard: React.FC = () => {
           <LinkedInIcon className="w-3.5 h-3.5 text-cyan-400" />
           <span>LinkedIn</span>
           <ExternalLink className="w-3 h-3 text-brand-subtle" />
-        </a>
-
-        <a
-          href={CREATOR_LINKS.repository}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-brand-surface/60 hover:bg-brand-surface border border-brand-border/40 text-xs font-mono text-brand-subtle hover:text-white transition-colors"
-          title="ANKIX SPORTS GitHub Repository"
-        >
-          <span>ankix-sports</span>
-          <ExternalLink className="w-3 h-3" />
         </a>
       </div>
     </div>

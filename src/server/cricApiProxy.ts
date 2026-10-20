@@ -111,3 +111,64 @@ export async function fetchFromCricApi(endpoint: string, params: Record<string, 
     };
   }
 }
+
+export function parseScoreString(scoreStr: string, teamName: string): any[] {
+  if (!scoreStr) return [];
+  const parts = scoreStr.split('&').map(s => s.trim());
+  return parts.map((part, index) => {
+    const match = part.match(/(\d+)(?:\/(\d+))?(?:\s*\(([\d.]+)(?:\s*ov)?\))?/i);
+    const r = match && match[1] ? parseInt(match[1], 10) : 0;
+    const w = match && match[2] ? parseInt(match[2], 10) : (part.includes('/') ? 0 : (match && match[1] ? 10 : 0));
+    const o = match && match[3] ? parseFloat(match[3]) : 0;
+    return {
+      r,
+      w,
+      o,
+      inning: parts.length > 1 ? `${teamName} Inning ${index + 1}` : `${teamName} Inning`
+    };
+  });
+}
+
+export function transformCricScoreToMatch(item: any): any {
+  const t1 = item.t1 || 'Team 1';
+  const t2 = item.t2 || 'Team 2';
+  const cleanTeamName = (t: string) => t.replace(/\[.*?\]/g, '').trim();
+  const extractShortname = (t: string) => {
+    const m = t.match(/\[(.*?)\]/);
+    if (m && m[1]) return m[1];
+    return cleanTeamName(t).substring(0, 4).toUpperCase();
+  };
+
+  const t1Clean = cleanTeamName(t1);
+  const t2Clean = cleanTeamName(t2);
+  const isLive = item.ms === 'live';
+  const isFixture = item.ms === 'fixture';
+  const isResult = item.ms === 'result';
+
+  return {
+    id: item.id,
+    name: `${t1Clean} vs ${t2Clean}`,
+    matchType: (item.matchType || 't20').toLowerCase(),
+    status: item.status || (isLive ? 'Live' : isFixture ? 'Upcoming' : 'Match Ended'),
+    venue: item.series || 'International Stadium',
+    date: item.dateTimeGMT ? item.dateTimeGMT.split('T')[0] : '',
+    dateTimeGMT: item.dateTimeGMT || '',
+    teams: [t1Clean, t2Clean],
+    teamInfo: [
+      { name: t1Clean, shortname: extractShortname(t1), img: item.t1img },
+      { name: t2Clean, shortname: extractShortname(t2), img: item.t2img }
+    ],
+    score: [
+      ...parseScoreString(item.t1s || '', t1Clean),
+      ...parseScoreString(item.t2s || '', t2Clean)
+    ],
+    seriesName: item.series || '',
+    matchStarted: isLive || isResult,
+    matchEnded: isResult,
+    category: isLive ? 'live' : isFixture ? 'upcoming' : 'completed',
+    isLive,
+    isUpcoming: isFixture,
+    isCompleted: isResult
+  };
+}
+

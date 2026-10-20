@@ -86,3 +86,42 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Daytime / High Visibility Light Mode */
+html.theme-light body {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+html.theme-light .bg-brand-bg {
+  background-color: #F1F5F9 !important;
+}
+
+html.theme-light .bg-brand-surface {
+  background-color: #FFFFFF !important;
+}
+
+html.theme-light .bg-brand-charcoal {
+  background-color: #E2E8F0 !important;
+}
+
+html.theme-light .border-brand-border {
+  border-color: #CBD5E1 !important;
+}
+
+html.theme-light .text-white {
+  color: #0F172A !important;
+}
+
+html.theme-light .text-brand-muted {
+  color: #475569 !important;
+}
+
+html.theme-light .glass-panel,
+html.theme-light .glass-card {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08) !important;
+}
+

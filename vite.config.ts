@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import type { Plugin } from 'vite';
-import { fetchFromCricApi } from './src/server/cricApiProxy';
+import { fetchFromCricApi, transformCricScoreToMatch } from './src/server/cricApiProxy';
 import { SAMPLE_STANDINGS } from './src/services/sampleCricketData';
 
 function cricketApiDevPlugin(): Plugin {
@@ -22,29 +22,46 @@ function cricketApiDevPlugin(): Plugin {
 
         try {
           if (pathname === '/api/matches/live') {
+            const cricScoreRes = await fetchFromCricApi('cricScore', {}, 30000);
+            if (cricScoreRes.status === 'success' && Array.isArray(cricScoreRes.data)) {
+              const liveOnly = cricScoreRes.data
+                .filter((m: any) => m.ms === 'live')
+                .map(transformCricScoreToMatch);
+              res.end(JSON.stringify({ ...cricScoreRes, data: liveOnly }));
+              return;
+            }
+            // Fallback to currentMatches strictly filtering out ended matches
             const data = await fetchFromCricApi('currentMatches', {}, 60000);
+            if (data.status === 'success' && Array.isArray(data.data)) {
+              const liveOnly = data.data.filter((m: any) => m.matchStarted && !m.matchEnded && !/won by|drawn|tied|no result/i.test(m.status || ''));
+              res.end(JSON.stringify({ ...data, data: liveOnly }));
+              return;
+            }
             res.end(JSON.stringify(data));
             return;
           }
 
           if (pathname === '/api/matches/all') {
-            let data = await fetchFromCricApi('currentMatches', {}, 60000);
-            if (data.status === 'success' && Array.isArray(data.data)) {
-              const valid = data.data.filter((m: any) => {
-                const teams = m.teams || [];
-                return !teams.every((t: string) => /tbc|tbd/i.test(t));
-              });
-              if (valid.length > 0) {
-                res.end(JSON.stringify({ ...data, data: valid }));
-                return;
-              }
+            const cricScoreRes = await fetchFromCricApi('cricScore', {}, 45000);
+            if (cricScoreRes.status === 'success' && Array.isArray(cricScoreRes.data)) {
+              const transformed = cricScoreRes.data.map(transformCricScoreToMatch);
+              res.end(JSON.stringify({ ...cricScoreRes, data: transformed }));
+              return;
             }
-            data = await fetchFromCricApi('matches', {}, 60000);
+            let data = await fetchFromCricApi('currentMatches', {}, 60000);
             res.end(JSON.stringify(data));
             return;
           }
 
           if (pathname === '/api/matches/upcoming') {
+            const cricScoreRes = await fetchFromCricApi('cricScore', {}, 60000);
+            if (cricScoreRes.status === 'success' && Array.isArray(cricScoreRes.data)) {
+              const upcoming = cricScoreRes.data
+                .filter((m: any) => m.ms === 'fixture')
+                .map(transformCricScoreToMatch);
+              res.end(JSON.stringify({ ...cricScoreRes, data: upcoming }));
+              return;
+            }
             const result = await fetchFromCricApi('matches', {}, 120000);
             if (result.status === 'success' && Array.isArray(result.data)) {
               const upcoming = result.data.filter((m: any) => !m.matchStarted && !m.matchEnded);
@@ -56,22 +73,20 @@ function cricketApiDevPlugin(): Plugin {
           }
 
           if (pathname === '/api/matches/results') {
+            const cricScoreRes = await fetchFromCricApi('cricScore', {}, 60000);
+            if (cricScoreRes.status === 'success' && Array.isArray(cricScoreRes.data)) {
+              const results = cricScoreRes.data
+                .filter((m: any) => m.ms === 'result')
+                .map(transformCricScoreToMatch);
+              res.end(JSON.stringify({ ...cricScoreRes, data: results }));
+              return;
+            }
             const currentResult = await fetchFromCricApi('currentMatches', {}, 60000);
             let completed: any[] = [];
             if (currentResult.status === 'success' && Array.isArray(currentResult.data)) {
               completed = currentResult.data.filter((m: any) => m.matchEnded || /won by|drawn|tied|no result/i.test(m.status || ''));
             }
-            if (completed.length > 0) {
-              res.end(JSON.stringify({ ...currentResult, data: completed }));
-              return;
-            }
-            const result = await fetchFromCricApi('matches', {}, 180000);
-            if (result.status === 'success' && Array.isArray(result.data)) {
-              completed = result.data.filter((m: any) => m.matchEnded || /won by|drawn|tied|no result/i.test(m.status || ''));
-              res.end(JSON.stringify({ ...result, data: completed }));
-              return;
-            }
-            res.end(JSON.stringify(result));
+            res.end(JSON.stringify({ ...currentResult, data: completed }));
             return;
           }
 
